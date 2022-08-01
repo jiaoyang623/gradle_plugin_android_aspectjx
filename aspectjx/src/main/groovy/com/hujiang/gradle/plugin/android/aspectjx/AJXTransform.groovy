@@ -62,12 +62,12 @@ class AJXTransform extends Transform {
 
     @Override
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
-
+        println("ajx transform")
         Project project = ajxProcedure.project
 
         String transformTaskVariantName = transformInvocation.context.getVariantName()
         VariantCache variantCache = new VariantCache(ajxProcedure.project, ajxProcedure.ajxCache, transformTaskVariantName)
-        
+
         ajxProcedure.with(new CheckAspectJXEnableProcedure(project, variantCache, transformInvocation))
 
         if (transformInvocation.incremental) {

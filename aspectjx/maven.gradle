@@ -1,5 +1,7 @@
 apply plugin: 'maven'
 
+apply plugin: 'maven-publish'
+
 version=LIB_VERSION
 group = LIB_GROUP
 def nexusRepositoryUrl=nexusReleases
@@ -43,6 +45,18 @@ uploadArchives {
                     url ORGANIZATION_URL
                 }
             }
+        }
+    }
+}
+
+publishing {
+    publications {
+        aspectjx(MavenPublication) {
+            groupId = 'com.hujiang.aspectjx'
+            artifactId = 'gradle-android-plugin-aspectjx'
+            version = '2.0.10'
+
+            from components.java
         }
     }
 }

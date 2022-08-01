@@ -32,18 +32,15 @@ class AJXPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-
-        project.repositories {
-            mavenLocal()
-        }
+        println("ajx plugin apply")
 
         project.dependencies {
             if (project.gradle.gradleVersion > "4.0") {
                 project.logger.debug("gradlew version > 4.0")
-                implementation 'org.aspectj:aspectjrt:1.9.5'
+                implementation 'org.aspectj:aspectjrt:1.9.6'
             } else {
                 project.logger.debug("gradlew version < 4.0")
-                compile 'org.aspectj:aspectjrt:1.9.5'
+                compile 'org.aspectj:aspectjrt:1.9.6'
             }
         }
 
@@ -51,7 +48,7 @@ class AJXPlugin implements Plugin<Project> {
 
         if (project.plugins.hasPlugin(AppPlugin)) {
             //build time trace
-            project.gradle.addListener(new TimeTrace())
+//            project.gradle.addListener(new TimeTrace())
 
             //register AspectTransform
             AppExtension android = project.extensions.getByType(AppExtension)

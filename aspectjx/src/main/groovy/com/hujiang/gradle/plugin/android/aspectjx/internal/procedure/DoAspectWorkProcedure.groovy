@@ -41,6 +41,7 @@ class DoAspectWorkProcedure extends AbsProcedure {
 
     @Override
     boolean doWorkContinuously() {
+        println("aspectjx: DoAspectWorkProcedure")
         //do aspectj real work
         project.logger.debug("~~~~~~~~~~~~~~~~~~~~do aspectj real work")
         ajxTaskManager.aspectPath << variantCache.aspectDir

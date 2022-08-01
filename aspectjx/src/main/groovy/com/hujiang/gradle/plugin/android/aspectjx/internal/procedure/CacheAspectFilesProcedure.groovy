@@ -96,6 +96,7 @@ class CacheAspectFilesProcedure extends AbsProcedure {
 
         batchTaskScheduler.execute()
 
+        println("CAFP ${variantCache.aspectDir}")
         if (AJXUtils.countOfFiles(variantCache.aspectDir) == 0) {
             AJXUtils.doWorkWithNoAspectj(transformInvocation)
             return false

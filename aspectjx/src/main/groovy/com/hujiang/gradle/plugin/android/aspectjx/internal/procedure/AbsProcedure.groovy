@@ -57,8 +57,10 @@ abstract class AbsProcedure {
     }
 
     boolean doWorkContinuously() {
+        println("absprocedure: do")
         for (AbsProcedure procedure : procedures) {
             if (!procedure.doWorkContinuously()) {
+                println("absprocedure: break ${procedure.class.name}")
                 break
             }
         }
