@@ -76,7 +76,7 @@ class AJXTask implements ITask {
             args << outputJar
         }
 
-        if(ajcArgs != null && !ajcArgs.isEmpty()) {
+        if (ajcArgs != null && !ajcArgs.isEmpty()) {
             if (!ajcArgs.contains('-Xlint')) {
                 args.add('-Xlint:ignore')
             }
@@ -90,29 +90,36 @@ class AJXTask implements ITask {
             args.add('-warn:none')
         }
 
-        inPath.each {File file ->
+        inPath.each { File file ->
             project.logger.debug("~~~~~~~~~~~~~input file: ${file.absolutePath}")
         }
 
-        MessageHandler handler = new MessageHandler(true)
-        Main m = new Main()
-        m.run(args as String[], handler)
-        for (IMessage message : handler.getMessages(null, true)) {
-            switch (message.getKind()) {
-                case IMessage.ABORT:
-                case IMessage.ERROR:
-                case IMessage.FAIL:
-                    log.error message.message, message.thrown
-                    throw new GradleException(message.message, message.thrown)
-                case IMessage.WARNING:
-                    log.warn message.message, message.thrown
-                    break
-                case IMessage.INFO:
-                    log.info message.message, message.thrown
-                    break
-                case IMessage.DEBUG:
-                    log.debug message.message, message.thrown
-                    break
+//        println("aspectj: ${args}")
+        synchronized (AJXTask.class) {
+
+            MessageHandler handler = new MessageHandler(true)
+            Main m = new Main()
+            m.run(args as String[], handler)
+
+            File f = File(outputJar)
+            println("$outputJar (${f.size()}) <- $inPath")
+            for (IMessage message : handler.getMessages(null, true)) {
+                switch (message.getKind()) {
+                    case IMessage.ABORT:
+                    case IMessage.ERROR:
+                    case IMessage.FAIL:
+                        log.error message.message, message.thrown
+                        throw new GradleException(message.message, message.thrown)
+                    case IMessage.WARNING:
+                        log.warn message.message, message.thrown
+                        break
+                    case IMessage.INFO:
+                        log.info message.message, message.thrown
+                        break
+                    case IMessage.DEBUG:
+                        log.debug message.message, message.thrown
+                        break
+                }
             }
         }
 
